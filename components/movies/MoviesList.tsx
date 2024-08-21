@@ -1,8 +1,8 @@
-import React from "react";
+import { Link } from "expo-router";
+import React, { useCallback } from "react";
 import { FlatList, Text, View } from "react-native";
 import MovieProps from "../../props/MovieProps";
-import { Link } from "expo-router";
-import { Image } from "expo-image";
+import MoviePoster from "../shared/MoviePoster";
 
 // Props
 interface MovieListProps {
@@ -11,7 +11,6 @@ interface MovieListProps {
 }
 
 const MoviesList: React.FC<MovieListProps> = ({ id, movies }) => {
-
   // Function to determine heading
   const renderHeading = () => {
     switch (id) {
@@ -26,9 +25,19 @@ const MoviesList: React.FC<MovieListProps> = ({ id, movies }) => {
     }
   };
 
+  // Function to render list items
+  const renderItems = useCallback(
+    ({ item }: { item: MovieProps }) => (
+      <Link href={`/movie/${item._id}`} className="mr-3">
+        <MoviePoster url={item.poster_path} size="lg" />
+      </Link>
+    ),
+    [movies]
+  );
+
   return (
     <View className="bg-[#111317] p-4">
-      <Text className="text-[#ffffff] text-2xl font-bold mb-4">
+      <Text className="text text-2xl font-bold mb-4">
         {renderHeading()}
       </Text>
       <FlatList
@@ -36,18 +45,11 @@ const MoviesList: React.FC<MovieListProps> = ({ id, movies }) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <Link href={`movieDetails/${item._id}`} className="mr-3">
-            <Image
-              source={{ uri: `https://image.tmdb.org/t/p/original${item.poster_path}` }}
-              className="w-48 h-72 object-cover"
-            />
-          </Link>
-        )}
+        renderItem={renderItems}
+        initialNumToRender={4}
       />
     </View>
   );
 };
 
-
-export default MoviesList;
+export default React.memo(MoviesList);
