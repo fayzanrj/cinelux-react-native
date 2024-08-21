@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View } from "react-native";
 import MovieProps from "../../props/MovieProps";
-import formatReleaseDate from "../../libs/FormatReleaseDate";
+import {formatReleaseDate} from "../../libs/FormatDates";
 import calculateRuntime from "../../libs/CalculateRuntime";
 
 const MovieDetails: React.FC<MovieProps> = ({
