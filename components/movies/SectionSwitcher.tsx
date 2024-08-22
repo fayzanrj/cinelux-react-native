@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import SectionSwitcherButton from "./SectionSwitcherButton";
 import MovieDetails from "./MovieDetails";
 import MovieShowtimes from "./MovieShowtimes";
@@ -23,14 +23,14 @@ const SectionSwitcher: React.FC<SectionSwitcherProps> = ({ movie }) => {
       case "DETAILS":
         return <MovieDetails {...movie} />;
       case "SHOWTIMES":
-        return <MovieShowtimes />;
+        return <MovieShowtimes movieId={movie._id} />;
       default:
         return null;
     }
   };
 
   return (
-    <View>
+    <>
       {/* Section Buttons */}
       <View className="text-center my-6 font-semibold flex-row justify-around">
         <SectionSwitcherButton
@@ -45,9 +45,9 @@ const SectionSwitcher: React.FC<SectionSwitcherProps> = ({ movie }) => {
         />
       </View>
 
-      {/* Render the selected section */}
+      {/* Rendering the selected section */}
       {renderSection()}
-    </View>
+    </>
   );
 };
 

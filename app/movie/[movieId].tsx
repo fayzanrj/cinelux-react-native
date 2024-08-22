@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
+import MovieDetails from "../../components/movies/MovieDetails";
 import SectionSwitcher from "../../components/movies/SectionSwitcher";
 import MoviePoster from "../../components/shared/MoviePoster";
 import { useAppContext } from "../../context/AppContext";
@@ -24,7 +25,7 @@ const MovieScreen = () => {
     setIsFetchingMovie(false);
   }, [FindMovieById]);
 
-  // if fectching
+  // if fetching
   if (isFetchingMovie) {
     return (
       <View className="flex-1 justify-center items-center bg-primaryBg">
@@ -43,8 +44,8 @@ const MovieScreen = () => {
   }
 
   return (
-    <ScrollView className="flex-1 bg-primaryBg p-5 pt-10">
-      <View className="flex-row gap-4">
+    <View className="flex-1 bg-primaryBg px-5">
+      <View className="flex-row gap-x-4 justify-center mt-4">
         <MoviePoster url={movie?.poster_path!} size="md" />
         <View className="max-w-[60%]">
           <Text className="text text-3xl font-bold">{movie?.title}</Text>
@@ -58,8 +59,13 @@ const MovieScreen = () => {
         </View>
       </View>
 
-      <SectionSwitcher movie={movie!} />
-    </ScrollView>
+      {/* If booking is opened then showing both movie details and showtimes otherwise only movie details  */}
+      {movie?.isBooking ? (
+        <SectionSwitcher movie={movie!} />
+      ) : (
+        <MovieDetails {...movie!} />
+      )}
+    </View>
   );
 };
 
