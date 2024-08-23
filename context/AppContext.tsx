@@ -8,6 +8,7 @@ interface AppContextProps {
   isFetchingMovies: boolean;
   FetchMovies: () => void;
   FindMovieById: (id: string) => MovieProps | null;
+  SearchMoviesByTitle: (title: string) => MovieProps[] | undefined;
 }
 
 // AppContext

@@ -31,7 +31,7 @@ export const useMoviesFunctions = () => {
     }
   };
 
-  // Function to find a movie by ID from allmovies 
+  // Function to find a movie by ID from allmovies
   const FindMovieById = (id: string) => {
     if (allMovies) {
       if (!id || id.length !== 24) return null;
@@ -42,11 +42,18 @@ export const useMoviesFunctions = () => {
     return null;
   };
 
+  // Function to find a movie by title
+  const SearchMoviesByTitle = (title: string) => {
+    return allMovies?.filter((movie) =>
+      movie.title.toLowerCase().includes(title.toLowerCase())
+    );
+  };
 
   return {
     allMovies,
     isFetchingMovies,
     FetchMovies,
     FindMovieById,
+    SearchMoviesByTitle
   };
 };

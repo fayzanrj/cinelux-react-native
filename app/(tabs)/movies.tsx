@@ -1,66 +1,81 @@
-import { ScrollView, StyleSheet, View } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
-import { useAppContext } from "../../context/AppContext";
-import MovieProps from "../../props/MovieProps";
-import useFilterMovies from "../../hooks/useFilterMovies";
-import MoviesStatusSwitcher from "../../components/movies/MoviesStatusSwitcher";
-import MoviePoster from "../../components/shared/MoviePoster";
 import { Link } from "expo-router";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import MoviesStatusSwitcher from "../../components/movies/MoviesStatusSwitcher";
+import SearchInput from "../../components/SearchInput";
+import MoviePoster from "../../components/shared/MoviePoster";
+import { useAppContext } from "../../context/AppContext";
+import useFilterMovies from "../../hooks/useFilterMovies";
 
 const Movies = () => {
-  // Accessing app context
-  const { isFetchingMovies } = useAppContext();
+  // App context
+  const { SearchMoviesByTitle, allMovies } = useAppContext();
 
   // States
-  const [movies, setMovies] = useState<MovieProps[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<
     "COMING_SOON" | "NOW_SHOWING" | "BOOKING_NOW"
   >("NOW_SHOWING");
 
-  //  Ref for scroll view
+  // Ref for scroll view
   const scrollRef = useRef<ScrollView>(null);
 
   // Hook for filtering movies based on status
   const filterMovies = useFilterMovies();
 
-  // Updating movies based on selected status
+  // Memoized filtered movies based on search query or status
+  const filteredMovies = useMemo(() => {
+    if (searchQuery) {
+      return SearchMoviesByTitle(searchQuery) || [];
+    }
+
+    switch (selectedStatus) {
+      case "NOW_SHOWING":
+        return filterMovies("NOW_SHOWING", true);
+      case "BOOKING_NOW":
+        return filterMovies("COMING_SOON", true);
+      case "COMING_SOON":
+        return filterMovies("COMING_SOON", false);
+      default:
+        return [];
+    }
+  }, [searchQuery, selectedStatus, allMovies]);
+
+  // Scroll to top when the selected status changes
   useEffect(() => {
-    const fetchFilteredMovies = () => {
-      switch (selectedStatus) {
-        case "NOW_SHOWING":
-          return filterMovies("NOW_SHOWING", true);
-        case "BOOKING_NOW":
-          return filterMovies("COMING_SOON", true);
-        case "COMING_SOON":
-          return filterMovies("COMING_SOON", false);
-        default:
-          return [];
-      }
-    };
-
-    // Setting filtered movies to state
-    setMovies(fetchFilteredMovies());
-
-    // Resetting scroll position on status change
     scrollRef.current?.scrollTo({ y: 0, animated: true });
-  }, [selectedStatus, isFetchingMovies]);
+  }, [selectedStatus]);
 
   return (
     <View className="flex-1 bg-primaryBg">
-      <MoviesStatusSwitcher
-        setSelectedStatus={setSelectedStatus}
-        selectedStatus={selectedStatus}
-      />
+      {/* Search Input */}
+      <SearchInput search={(query: string) => setSearchQuery(query)} />
+
+      {/* Status Switcher */}
+      {!searchQuery && (
+        <MoviesStatusSwitcher
+          setSelectedStatus={setSelectedStatus}
+          selectedStatus={selectedStatus}
+        />
+      )}
+
+      {/* Movies List */}
       <ScrollView
         contentContainerStyle={styles.scrollViewContent}
         showsVerticalScrollIndicator={false}
         ref={scrollRef}
       >
-        {movies.map((movie) => (
-          <Link key={movie._id} href={`/movie/${movie._id}`}>
-            <MoviePoster url={movie.poster_path} size="md" />
-          </Link>
-        ))}
+        {filteredMovies.length > 0 ? (
+          filteredMovies.map((movie) => (
+            <Link key={movie._id} href={`/movie/${movie._id}`}>
+              <MoviePoster url={movie.poster_path} size="md" />
+            </Link>
+          ))
+        ) : (
+          <View>
+            <Text className="text text-2xl font-semibold">No movies found</Text>
+          </View>
+        )}
       </ScrollView>
     </View>
   );
