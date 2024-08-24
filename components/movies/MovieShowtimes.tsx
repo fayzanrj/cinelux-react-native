@@ -4,7 +4,7 @@ import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { formatDateInLocalStr } from "../../libs/FormatDates";
 import fetchShowtimesByMovieId from "../../libs/fetch/FetchShowtimesByMovieId";
 import ShowtimeProps from "../../props/ShowtimeProps";
-import MovieShowtimesItem from "./MovieShowtimesItem";
+import ShowtimesListItem from "../shared/ShowtimesListItem";
 
 // Props
 interface MovieShowtimesProps {
@@ -51,12 +51,15 @@ const MovieShowtimes: React.FC<MovieShowtimesProps> = ({ movieId }) => {
     <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
       {data.map((item: { date: string; showtimes: ShowtimeProps[] }) => (
         <View key={item.date} className="my-2">
+          {/* Showtimes date */}
           <Text className="text text-xl font-bold">
             {formatDateInLocalStr(item.date)}
           </Text>
+
+          {/* Showtimes */}
           <View className="p-2">
             {item.showtimes.map((showtime) => (
-              <MovieShowtimesItem key={showtime._id} {...showtime} />
+              <ShowtimesListItem key={showtime._id} {...showtime} />
             ))}
           </View>
         </View>

@@ -1,0 +1,83 @@
+import React, { useState } from "react";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import InputField from "../shared/InputField";
+import axios from "axios";
+import { useRouter } from "expo-router";
+import VerificationActionButtons from "./VerificationActionButtons";
+
+// Destructuring environment variables
+const { EXPO_PUBLIC_API_URL, EXPO_PUBLIC_API_ACCESS_TOKEN } = process.env;
+
+// Props
+interface VerifyCodeProps {
+  changeDetails: () => void;
+  email: string;
+  handleVerified: () => void;
+}
+
+const VerifyCode: React.FC<VerifyCodeProps> = ({
+  changeDetails,
+  email,
+  handleVerified,
+}) => {
+  // States
+  const [code, setCode] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
+
+  // Function to handle verifying code
+  const handleVerification = async () => {
+    try {
+      setIsVerifying(true);
+
+      if (code.length !== 6) {
+        return;
+      }
+
+      const response = await axios.post(
+        `${EXPO_PUBLIC_API_URL}/api/v1/userAuth/verifyCode`,
+        { email, code },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            accessToken: EXPO_PUBLIC_API_ACCESS_TOKEN!,
+          },
+        }
+      );
+
+      handleVerified();
+    } catch (error) {
+    } finally {
+      setIsVerifying(false);
+    }
+  };
+  return (
+    <View>
+      {/* Header text */}
+      <View className="my-4 text-center w-full">
+        <Text className="text text-center text-lg">
+          A verification code has been sent to
+        </Text>
+        <Text className="text font-semibold  text-center text-lg">{email}</Text>
+      </View>
+
+      {/* Code input field */}
+      <InputField
+        onChange={(text: string) => setCode(text)}
+        placeholder="Enter code"
+        label="Verification Code"
+        type="numeric"
+      />
+
+      {/* Action buttons */}
+      <VerificationActionButtons
+        firstButtonText="Change details"
+        firstButtonOnPress={changeDetails}
+        secondButtonText="Verify Code"
+        secondButtonOnPress={handleVerification}
+        isLoading={isVerifying}
+      />
+    </View>
+  );
+};
+
+export default VerifyCode;

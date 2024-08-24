@@ -2,7 +2,7 @@ import { Link } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import MoviesStatusSwitcher from "../../components/movies/MoviesStatusSwitcher";
-import SearchInput from "../../components/SearchInput";
+import InputField from "../../components/shared/InputField";
 import MoviePoster from "../../components/shared/MoviePoster";
 import { useAppContext } from "../../context/AppContext";
 import useFilterMovies from "../../hooks/useFilterMovies";
@@ -49,7 +49,12 @@ const Movies = () => {
   return (
     <View className="flex-1 bg-primaryBg">
       {/* Search Input */}
-      <SearchInput search={(query: string) => setSearchQuery(query)} />
+      <View className="w-[90%] mx-auto">
+        <InputField
+          onChange={(query: string) => setSearchQuery(query)}
+          placeholder="Search a movie"
+        />
+      </View>
 
       {/* Status Switcher */}
       {!searchQuery && (

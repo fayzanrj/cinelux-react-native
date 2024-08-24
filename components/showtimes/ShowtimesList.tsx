@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import ShowtimeProps from "../../props/ShowtimeProps";
-import ShowtimesListItem from "./ShowtimesListItem";
+import ShowtimesListItem from "../shared/ShowtimesListItem";
 
 // Props
 interface ShowtimesListProps {
@@ -14,14 +14,13 @@ const ShowtimesList: React.FC<ShowtimesListProps> = ({ showtimes }) => {
       className="flex-1"
       contentContainerStyle={{
         paddingHorizontal: 16,
-        gap: 10,
         paddingVertical: 6,
       }}
       showsVerticalScrollIndicator={false}
     >
       {showtimes && showtimes.length > 0 ? (
         showtimes.map((showtime) => (
-          <ShowtimesListItem key={showtime._id} {...showtime} />
+          <ShowtimesListItem key={showtime._id} {...showtime} showTitle />
         ))
       ) : (
         <View className="flex-1 justify-center items-center">
