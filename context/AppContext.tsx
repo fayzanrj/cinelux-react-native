@@ -1,6 +1,8 @@
 import { ReactNode, createContext, useContext, useEffect } from "react";
 import MovieProps from "../props/MovieProps";
 import { useMoviesFunctions } from "./MoviesContextFunctions";
+import UserProps from "../props/UserProps";
+import { useUserFunctions } from "./UserContextFunctions";
 
 interface AppContextProps {
   // MOVIE PROPS
@@ -9,6 +11,12 @@ interface AppContextProps {
   FetchMovies: () => void;
   FindMovieById: (id: string) => MovieProps | null;
   SearchMoviesByTitle: (title: string) => MovieProps[] | undefined;
+
+  //  USER PROPS
+  user: UserProps | null;
+  setUser: React.Dispatch<React.SetStateAction<UserProps | null>>;
+  isFetching: boolean;
+  logout: () => void;
 }
 
 // AppContext
@@ -26,6 +34,7 @@ export const useAppContext = () => {
 // App context
 export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const { ...movieState } = useMoviesFunctions();
+  const { ...userFunctions } = useUserFunctions();
 
   // Fetching movies on mount
   useEffect(() => {
@@ -36,6 +45,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
     <AppContext.Provider
       value={{
         ...movieState,
+        ...userFunctions,
       }}
     >
       {children}

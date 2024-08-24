@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
-import InputField from "../shared/InputField";
 import axios from "axios";
-import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import { Text, View } from "react-native";
+import InputField from "../shared/InputField";
 import VerificationActionButtons from "./VerificationActionButtons";
 
 // Destructuring environment variables

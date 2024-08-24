@@ -25,6 +25,7 @@ const ShowtimesListItem: React.FC<ShowtimesListItemProps> = ({
         isVisible={isModalOpen}
         close={() => setIsModalOpen(false)}
         showtimeId={_id}
+        variant="SHOWTIME"
       />
 
       {/* Showtime data */}
