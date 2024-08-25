@@ -1,7 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Modal, View } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Modal,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { useAppContext } from "../../context/AppContext";
 import LoggedInUser from "./LoggedInUser";
 import ModalHeader from "./ModalHeader";
@@ -60,12 +66,13 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
 
   // Function to run after verification is successful
   const handleVerified = async () => {
+    userData.email = userData.email.toLowerCase();
     // Saving user
     await AsyncStorage.setItem("user", JSON.stringify(userData), () =>
       setUser(userData)
     );
-    setCodeSent(false);
     redirect();
+    setCodeSent(false);
   };
 
   // Function to close verification modal
@@ -84,28 +91,33 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
       visible={isVisible}
       onDismiss={close}
     >
-      <View className="flex-1 justify-center bg-[#000000ae]">
-        <View className="bg-primaryBg w-[95%] rounded-md mx-auto p-4">
-          <ModalHeader close={closeModal} />
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View className="flex-1 justify-center bg-[#000000ae]">
+          <KeyboardAvoidingView
+            className="bg-primaryBg w-[95%] rounded-md mx-auto p-4"
+            behavior="padding"
+          >
+            <ModalHeader close={closeModal} />
 
-          {user ? (
-            <LoggedInUser redirect={redirect} />
-          ) : codeSent ? (
-            <VerifyCode
-              email={userData.email}
-              handleVerified={handleVerified}
-              changeDetails={() => setCodeSent(false)}
-            />
-          ) : (
-            <UserInfo
-              close={closeModal}
-              setUserData={setUserData}
-              userData={userData}
-              setCodeSent={setCodeSent}
-            />
-          )}
+            {user ? (
+              <LoggedInUser redirect={redirect} />
+            ) : codeSent ? (
+              <VerifyCode
+                email={userData.email}
+                handleVerified={handleVerified}
+                changeDetails={() => setCodeSent(false)}
+              />
+            ) : (
+              <UserInfo
+                close={closeModal}
+                setUserData={setUserData}
+                userData={userData}
+                setCodeSent={setCodeSent}
+              />
+            )}
+          </KeyboardAvoidingView>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };
