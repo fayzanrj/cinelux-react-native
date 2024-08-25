@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import InputField from "../shared/InputField";
 import VerificationActionButtons from "./VerificationActionButtons";
+import { triggerToast } from "../shared/Toast";
 
 // Destructuring environment variables
 const { EXPO_PUBLIC_API_URL, EXPO_PUBLIC_API_ACCESS_TOKEN } = process.env;
@@ -28,11 +29,14 @@ const VerifyCode: React.FC<VerifyCodeProps> = ({
     try {
       setIsVerifying(true);
 
+      // Validating
       if (code.length !== 6) {
+        triggerToast("error", "Invalid Code");
         return;
       }
 
-      const response = await axios.post(
+      // Verifying code
+      await axios.post(
         `${EXPO_PUBLIC_API_URL}/api/v1/userAuth/verifyCode`,
         { email, code },
         {
@@ -43,8 +47,10 @@ const VerifyCode: React.FC<VerifyCodeProps> = ({
         }
       );
 
+      triggerToast("success", "Verification successful");
       handleVerified();
     } catch (error) {
+      triggerToast("error", "Invalid Code");
     } finally {
       setIsVerifying(false);
     }
@@ -62,6 +68,7 @@ const VerifyCode: React.FC<VerifyCodeProps> = ({
       {/* Code input field */}
       <InputField
         onChange={(text: string) => setCode(text)}
+        value={code}
         placeholder="Enter code"
         label="Verification Code"
         type="numeric"

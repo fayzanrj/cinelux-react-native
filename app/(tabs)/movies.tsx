@@ -52,6 +52,7 @@ const Movies = () => {
       <View className="w-[90%] mx-auto">
         <InputField
           onChange={(query: string) => setSearchQuery(query)}
+          value={searchQuery}
           placeholder="Search a movie"
         />
       </View>

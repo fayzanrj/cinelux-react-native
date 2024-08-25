@@ -1,8 +1,9 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import React from "react";
+import { StatusBar } from "react-native";
+import Toast from "../components/shared/Toast";
 import { AppContextProvider } from "../context/AppContext";
-import { StatusBar } from "expo-status-bar";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const RootLayout = () => {
   const queryClient = new QueryClient();
@@ -10,7 +11,8 @@ const RootLayout = () => {
   return (
     <AppContextProvider>
       <QueryClientProvider client={queryClient}>
-        <StatusBar translucent animated style="light" />
+        <StatusBar barStyle={"light-content"} />
+        <Toast />
         <Stack
           screenOptions={{
             headerStyle: {

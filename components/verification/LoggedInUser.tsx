@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useAppContext } from "../../context/AppContext";
 import VerificationActionButtons from "./VerificationActionButtons";
