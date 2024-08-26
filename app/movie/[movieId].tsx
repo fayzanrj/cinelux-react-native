@@ -48,7 +48,9 @@ const MovieScreen = () => {
       <View className="flex-row gap-x-4 justify-center mt-4">
         <MoviePoster url={movie?.poster_path!} size="md" />
         <View className="max-w-[60%]">
-          <Text className="text text-3xl font-bold">{movie?.title}</Text>
+          <Text className="text text-2xl font-bold" allowFontScaling={false}>
+            {movie?.title}
+          </Text>
           <View className="flex-row gap-2 flex-wrap my-2">
             {movie?.genres.map((item) => (
               <Text key={item.id} className="p-1 bg-[#292e37] text">

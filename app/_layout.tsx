@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import React from "react";
 import { StatusBar } from "react-native";
-import Toast from "../components/shared/Toast";
+import ScreenToast from "../components/toast/ScreenToast";
 import { AppContextProvider } from "../context/AppContext";
 
 const RootLayout = () => {
@@ -11,8 +11,8 @@ const RootLayout = () => {
   return (
     <AppContextProvider>
       <QueryClientProvider client={queryClient}>
-        <StatusBar barStyle={"light-content"} />
-        <Toast />
+        <StatusBar backgroundColor="#111317" barStyle="light-content" />
+        <ScreenToast />
         <Stack
           screenOptions={{
             headerStyle: {
@@ -29,6 +29,10 @@ const RootLayout = () => {
           <Stack.Screen
             name="movie/[movieId]"
             options={{ headerTitle: "Movie Details", title: "Movie Details" }}
+          />
+          <Stack.Screen
+            name="tickets/[showtimeId]"
+            options={{ headerTitle: "Tickets", title: "Tickets" }}
           />
         </Stack>
       </QueryClientProvider>

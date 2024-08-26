@@ -5,7 +5,7 @@ import validateEmail from "../../libs/ValidateEmail";
 import UserProps from "../../props/UserProps";
 import InputField from "../shared/InputField";
 import VerificationActionButtons from "./VerificationActionButtons";
-import { triggerToast } from "../shared/Toast";
+import { triggerModalToast } from "../toast/ModalToast";
 
 // Props
 interface UserInfoProps {
@@ -31,12 +31,12 @@ const UserInfo: React.FC<UserInfoProps> = ({
 
       // Validating data
       if (userData.name.length < 6) {
-        triggerToast("error", "Name should be of at least 6 characters");
+        triggerModalToast("error", "Name should be of at least 6 characters");
         return;
       }
 
       if (!validateEmail(userData.email)) {
-        triggerToast("error", "Invalid Email adress");
+        triggerModalToast("error", "Invalid Email adress");
         return;
       }
 
@@ -45,12 +45,12 @@ const UserInfo: React.FC<UserInfoProps> = ({
 
       setCodeSent(sent);
       if (sent) {
-        triggerToast("success", "Code has been sent successfully");
+        triggerModalToast("success", "Code has been sent successfully");
       } else {
-        triggerToast("error", "Some error occured while sending code");
+        triggerModalToast("error", "Some error occured while sending code");
       }
     } catch (error) {
-      triggerToast("error", "Some error occured");
+      triggerModalToast("error", "Some error occured");
       console.error(error);
     } finally {
       setIsSending(false);

@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { useAppContext } from "../../context/AppContext";
-import Toast from "../shared/Toast";
+import ModalToast from "../toast/ModalToast";
 import LoggedInUser from "./LoggedInUser";
 import ModalHeader from "./ModalHeader";
 import UserInfo from "./UserInfo";
@@ -95,7 +95,7 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
     >
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View className="flex-1 justify-center bg-[#000000ae]">
-          {isVisible && <Toast />}
+          <ModalToast />
           <KeyboardAvoidingView
             className="bg-primaryBg w-[95%] rounded-md mx-auto p-4"
             behavior="padding"

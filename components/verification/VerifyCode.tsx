@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import InputField from "../shared/InputField";
 import VerificationActionButtons from "./VerificationActionButtons";
-import { triggerToast } from "../shared/Toast";
+import { triggerModalToast } from "../toast/ModalToast";
+import { triggerScreenToast } from "../toast/ScreenToast";
 
 // Destructuring environment variables
 const { EXPO_PUBLIC_API_URL, EXPO_PUBLIC_API_ACCESS_TOKEN } = process.env;
@@ -31,7 +32,7 @@ const VerifyCode: React.FC<VerifyCodeProps> = ({
 
       // Validating
       if (code.length !== 6) {
-        triggerToast("error", "Invalid Code");
+        triggerModalToast("error", "Invalid Code");
         return;
       }
 
@@ -47,10 +48,10 @@ const VerifyCode: React.FC<VerifyCodeProps> = ({
         }
       );
 
-      triggerToast("success", "Verification successful");
+      triggerScreenToast("success", "Verification successful");
       handleVerified();
     } catch (error) {
-      triggerToast("error", "Invalid Code");
+      triggerModalToast("error", "Invalid Code");
     } finally {
       setIsVerifying(false);
     }
