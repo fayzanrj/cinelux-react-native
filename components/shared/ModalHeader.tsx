@@ -5,18 +5,18 @@ import { Pressable, View } from "react-native";
 
 // Props
 interface ModalHeaderProps {
-  close: () => void;
+  closeModal: () => void;
 }
 
-const ModalHeader : React.FC<ModalHeaderProps> = ({close}) => {
+const ModalHeader : React.FC<ModalHeaderProps> = ({closeModal}) => {
   return (
-    <View className="flex-row justify-between items-start">
+    <View className="flex-row justify-between items-start w-full">
       <Image
         source={require("../../assets/logo.png")}
         style={{ width: 70, height: 70 }}
         alt="logo"
       />
-      <Pressable onPress={close}>
+      <Pressable onPress={closeModal}>
         <AntDesign name="close" size={24} color="#ffffff" />
       </Pressable>
     </View>

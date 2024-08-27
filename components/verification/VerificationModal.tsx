@@ -1,17 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Modal,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
 import { useAppContext } from "../../context/AppContext";
-import ModalToast from "../toast/ModalToast";
+import ScreenModal from "../shared/ScreenModal";
 import LoggedInUser from "./LoggedInUser";
-import ModalHeader from "./ModalHeader";
 import UserInfo from "./UserInfo";
 import VerifyCode from "./VerifyCode";
 
@@ -85,43 +77,24 @@ const VerificationModal: React.FC<VerificationModalProps> = ({
   };
 
   return (
-    <Modal
-      statusBarTranslucent
-      presentationStyle="overFullScreen"
-      transparent
-      animationType="fade"
-      visible={isVisible}
-      onDismiss={close}
-    >
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View className="flex-1 justify-center bg-[#000000ae]">
-          <ModalToast />
-          <KeyboardAvoidingView
-            className="bg-primaryBg w-[95%] rounded-md mx-auto p-4"
-            behavior="padding"
-          >
-            <ModalHeader close={closeModal} />
-
-            {user && !codeSent ? (
-              <LoggedInUser redirect={redirect} />
-            ) : codeSent ? (
-              <VerifyCode
-                email={userData.email}
-                handleVerified={handleVerified}
-                changeDetails={() => setCodeSent(false)}
-              />
-            ) : (
-              <UserInfo
-                close={closeModal}
-                setUserData={setUserData}
-                userData={userData}
-                setCodeSent={setCodeSent}
-              />
-            )}
-          </KeyboardAvoidingView>
-        </View>
-      </TouchableWithoutFeedback>
-    </Modal>
+    <ScreenModal closeModal={closeModal} isVisible={isVisible}>
+        {user && !codeSent ? (
+          <LoggedInUser redirect={redirect} />
+        ) : codeSent ? (
+          <VerifyCode
+            email={userData.email}
+            handleVerified={handleVerified}
+            changeDetails={() => setCodeSent(false)}
+          />
+        ) : (
+          <UserInfo
+            close={closeModal}
+            setUserData={setUserData}
+            userData={userData}
+            setCodeSent={setCodeSent}
+          />
+        )}
+    </ScreenModal>
   );
 };
 

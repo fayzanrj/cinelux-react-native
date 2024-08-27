@@ -1,38 +1,42 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import TicketsProps from "../../props/TicketsProps";
+import MyTicketModal from "./MyTicketModal";
 
-const MyTicketsItem: React.FC<TicketsProps> = ({
-  _id,
-  bookingNumber,
-  movie,
-  createdAt,
-  screen,
-  language,
-  date,
-  seats,
-  time,
-}) => {
+const MyTicketsItem: React.FC<TicketsProps> = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <View className="border my-2 border-[#878787] p-3 w-[98%] mx-auto rounded-md">
-      <Text className="text text-xl font-bold">Booking#{bookingNumber}</Text>
-
-      <View className="my-5">
-        <Text className="text text-xl font-semibold">
-          {movie.title} <Text className="text-base font-normal">({language})</Text>
+    <>
+      {isModalOpen && (
+        <MyTicketModal
+          {...props}
+          isVisible={isModalOpen}
+          closeModal={() => setIsModalOpen(false)}
+        />
+      )}
+      
+      <TouchableOpacity
+        className="border my-2 bg-secondaryBg p-3 py-2 w-[98%] mx-auto rounded-md"
+        onPress={() => setIsModalOpen(true)}
+      >
+        <Text className="text text-xl font-bold">
+          Booking#{props.bookingNumber}
         </Text>
-        <Text className="text text-lg">
-          {date} - {time} - {screen}
-        </Text>
-      </View>
 
-      <View>
-        <Text className="text text-lg">Seats : {seats.join(",")}</Text>
-        <Text className="text text-lg">Purchased on : {new Date(createdAt).toDateString()}</Text>
-      </View>
-    </View>
+        <View className="my-1">
+          <Text className="text text-xl font-semibold">
+            {props.movie.title}{" "}
+            <Text className="text-base font-normal">({props.language})</Text>
+          </Text>
+
+          <Text className="text text-lg">
+            Purchased on : {new Date(props.createdAt).toDateString()}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </>
   );
 };
 
 export default MyTicketsItem;
-
