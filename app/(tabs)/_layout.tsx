@@ -38,6 +38,7 @@ const TabsLayout = () => {
           name="index"
           options={{
             title: "Home",
+            headerShown : false,
             tabBarIcon: ({ focused }) => (
               <TabIcon IconComponent={Entypo} name="home" focused={focused} />
             ),
