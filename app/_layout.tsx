@@ -20,7 +20,9 @@ const RootLayout = () => {
             },
             headerShadowVisible: false,
             headerTintColor: "#fff",
+            headerTitleAlign : "center"
           }}
+          
         >
           <Stack.Screen
             name="(tabs)"

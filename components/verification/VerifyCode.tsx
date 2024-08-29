@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import InputField from "../shared/InputField";
-import VerificationActionButtons from "./VerificationActionButtons";
+import ActionButtons from "../shared/ActionButtons";
 import { triggerModalToast } from "../toast/ModalToast";
 import { triggerScreenToast } from "../toast/ScreenToast";
 
@@ -76,7 +76,7 @@ const VerifyCode: React.FC<VerifyCodeProps> = ({
       />
 
       {/* Action buttons */}
-      <VerificationActionButtons
+      <ActionButtons
         firstButtonText="Change details"
         firstButtonOnPress={changeDetails}
         secondButtonText="Verify Code"

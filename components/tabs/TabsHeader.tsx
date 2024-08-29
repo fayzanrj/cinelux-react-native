@@ -7,6 +7,7 @@ const TabsHeader = () => {
       source={require("../../assets/logo.png")}
       style={{ width: 40, height: 40 }}
       alt="logo"
+      className="mx-auto"
     />
   );
 };

@@ -8,7 +8,7 @@ interface MoviePosterCommonProps {
 
 // Size props
 interface MoviePosterSizeProps extends MoviePosterCommonProps {
-  size?: "lg" | "md";
+  size?: "lg" | "md" | "sm";
 }
 
 // Width props
@@ -27,7 +27,13 @@ const MoviePoster: React.FC<MoviePosterProps> = ({ url, ...props }) => {
   let dynamicHeight = 0;
 
   if (size) {
-    imageSizeClass = size === "lg" ? "w-48 h-72" : "w-32 h-48";
+    if (size === "lg") {
+      imageSizeClass = "w-48 h-72";
+    } else if (size === "md") {
+      imageSizeClass = "w-32 h-48";
+    } else if(size === "sm"){
+      imageSizeClass = "w-24 h-36";
+    }
   }
 
   if (width) {

@@ -73,7 +73,8 @@ const Tickets = () => {
           onSeatPress={handleOnClick}
         />
       </View>
-      <BookTicketsButton selectedSeats={selectedSeats} />
+      
+      <BookTicketsButton selectedSeats={selectedSeats} showtime={showtime} />
     </View>
   );
 };

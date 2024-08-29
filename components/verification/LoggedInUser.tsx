@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useAppContext } from "../../context/AppContext";
-import VerificationActionButtons from "./VerificationActionButtons";
+import ActionButtons from "../shared/ActionButtons";
 
 // Props
 interface LoggedInUserProps {
@@ -18,7 +18,7 @@ const LoggedInUser: React.FC<LoggedInUserProps> = ({ redirect }) => {
       <Text className="text text-xl font-semibold mt-6">{user?.name}</Text>
       <Text className="text text-lg font-semibold mb-6">{user?.email}</Text>
 
-      <VerificationActionButtons
+      <ActionButtons
         firstButtonText="LOG OUT"
         firstButtonOnPress={logout}
         secondButtonText="Continue"

@@ -17,6 +17,7 @@ interface ScreenModalProps {
   children: React.ReactNode;
   showHeader?: boolean;
   showBgColor?: boolean;
+  modalBgColor? : string,
   withoutFeedbackOnClick?: () => void;
 }
 
@@ -26,6 +27,7 @@ const ScreenModal: React.FC<ScreenModalProps> = ({
   children,
   showHeader = true,
   showBgColor = true,
+  modalBgColor = "#000000ae",
   withoutFeedbackOnClick = () => Keyboard.dismiss(),
 }) => {
   return (
@@ -38,7 +40,7 @@ const ScreenModal: React.FC<ScreenModalProps> = ({
       //   onDismiss={closeModal}
     >
       <TouchableWithoutFeedback onPress={withoutFeedbackOnClick}>
-        <View className="flex-1 justify-center bg-[#000000ae]">
+        <View className="flex-1 justify-center" style={{backgroundColor : modalBgColor}}>
           <ModalToast />
 
           <KeyboardAvoidingView

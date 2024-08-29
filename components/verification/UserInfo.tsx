@@ -4,7 +4,7 @@ import SendVerificationCode from "../../libs/SendVerificationCode";
 import validateEmail from "../../libs/ValidateEmail";
 import UserProps from "../../props/UserProps";
 import InputField from "../shared/InputField";
-import VerificationActionButtons from "./VerificationActionButtons";
+import ActionButtons from "../shared/ActionButtons";
 import { triggerModalToast } from "../toast/ModalToast";
 
 // Props
@@ -80,7 +80,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
       />
 
       {/* Action buttons */}
-      <VerificationActionButtons
+      <ActionButtons
         firstButtonText="Look for more"
         firstButtonOnPress={close}
         secondButtonText={"Send Code"}
